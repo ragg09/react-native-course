@@ -1,23 +1,12 @@
 import { useState } from 'react';
-import {
-  Button,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  FlatList
-} from 'react-native';
+import { Button, StyleSheet, TextInput, View, FlatList } from 'react-native';
+import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
 export default function App() {
-  const [inputGoal, setInputGoal] = useState('');
   const [goalLists, setGoalLists] = useState([]);
 
-  const goalInptutHandler = (input) => {
-    setInputGoal(input);
-  };
-
-  const addGoalHandler = () => {
+  const addGoalHandler = (inputGoal) => {
     setGoalLists((currentGoalLists) => [
       ...currentGoalLists,
       { text: inputGoal, id: Math.random() }
@@ -26,24 +15,13 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Your Course Goal"
-          onChangeText={goalInptutHandler}
-        />
-        <Button title="Add Goal" onPress={addGoalHandler} />
-      </View>
+      <GoalInput onPress={addGoalHandler} />
       <View style={styles.goalsContainer}>
         <FlatList
           data={goalLists}
           renderItem={(itemData) => {
             return (
-              <View style={styles.goalItem}>
-                <Text style={styles.goalItemText}>
-                  {itemData.index + 1}. {itemData.item.text}
-                </Text>
-              </View>
+              <GoalItem id={itemData.index + 1} text={itemData.item.text} />
             );
           }}
           alwaysBounceVertical={false}
@@ -72,23 +50,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'black'
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    width: '70%',
-    marginRight: 8,
-    padding: 8
-  },
   goalsContainer: {
     flex: 4
-  },
-  goalItem: {
-    margin: 8,
-    borderRadius: 6,
-    backgroundColor: '#5e0acc',
-    padding: 8
-  },
-  goalItemText: {
-    color: 'white'
   }
 });
