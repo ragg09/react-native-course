@@ -7,7 +7,8 @@ import {
   TextInput,
   View,
   FlatList,
-  Modal
+  Modal,
+  Image
 } from 'react-native';
 
 export default function GoalInput({ onPress, visible, modalHandler }) {
@@ -28,6 +29,7 @@ export default function GoalInput({ onPress, visible, modalHandler }) {
   return (
     <Modal visible={visible} animationType="slide">
       <View style={styles.inputContainer}>
+        <Image source={require('../assets/images/android-apple.gif')} />
         <TextInput
           style={styles.textInput}
           placeholder="Your Course Goal"
@@ -53,10 +55,7 @@ const styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: 'black'
+    alignItems: 'center'
   },
   textInput: {
     borderWidth: 1,

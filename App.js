@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { Button, StyleSheet, TextInput, View, FlatList } from 'react-native';
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
+import { StatusBar } from 'expo-status-bar';
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,38 +26,41 @@ export default function App() {
   };
 
   return (
-    <View style={styles.appContainer}>
-      <Button
-        title="Open Add New Goal"
-        color={'green'}
-        onPress={modalHandler}
-      />
-      {isOpen && (
-        <GoalInput
-          onPress={addGoalHandler}
-          visible={isOpen}
-          modalHandler={modalHandler}
+    <Fragment>
+      <StatusBar style="auto" />
+      <View style={styles.appContainer}>
+        <Button
+          title="Open Add New Goal"
+          color={'green'}
+          onPress={modalHandler}
         />
-      )}
-      <View style={styles.goalsContainer}>
-        <FlatList
-          data={goalLists}
-          renderItem={(itemData) => {
-            return (
-              <GoalItem
-                id={itemData.item.id}
-                text={itemData.item.text}
-                onPress={deleteGoalHandler}
-              />
-            );
-          }}
-          alwaysBounceVertical={false}
-          keyExtractor={(item, index) => {
-            return item.id;
-          }}
-        />
+        {isOpen && (
+          <GoalInput
+            onPress={addGoalHandler}
+            visible={isOpen}
+            modalHandler={modalHandler}
+          />
+        )}
+        <View style={styles.goalsContainer}>
+          <FlatList
+            data={goalLists}
+            renderItem={(itemData) => {
+              return (
+                <GoalItem
+                  id={itemData.item.id}
+                  text={itemData.item.text}
+                  onPress={deleteGoalHandler}
+                />
+              );
+            }}
+            alwaysBounceVertical={false}
+            keyExtractor={(item, index) => {
+              return item.id;
+            }}
+          />
+        </View>
       </View>
-    </View>
+    </Fragment>
   );
 }
 
