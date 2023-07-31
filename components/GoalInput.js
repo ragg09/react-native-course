@@ -17,8 +17,10 @@ export default function GoalInput({ onPress }) {
   };
 
   const addGoalHandler = () => {
-    onPress(inputGoal);
-    setInputGoal('');
+    if (inputGoal !== '') {
+      onPress(inputGoal);
+      setInputGoal('');
+    }
   };
 
   return (

@@ -13,6 +13,12 @@ export default function App() {
     ]);
   };
 
+  const deleteGoalHandler = (id) => {
+    setGoalLists((currentGoalLists) => {
+      return currentGoalLists.filter((goal) => goal.id !== id);
+    });
+  };
+
   return (
     <View style={styles.appContainer}>
       <GoalInput onPress={addGoalHandler} />
@@ -21,7 +27,11 @@ export default function App() {
           data={goalLists}
           renderItem={(itemData) => {
             return (
-              <GoalItem id={itemData.index + 1} text={itemData.item.text} />
+              <GoalItem
+                id={itemData.item.id}
+                text={itemData.item.text}
+                onPress={deleteGoalHandler}
+              />
             );
           }}
           alwaysBounceVertical={false}

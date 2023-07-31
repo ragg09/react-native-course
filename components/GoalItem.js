@@ -1,20 +1,12 @@
-import {
-  Button,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  FlatList
-} from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 
-export default function GoalItem({ id, text }) {
+export default function GoalItem({ id, text, onPress }) {
   return (
-    <View style={styles.goalItem}>
-      <Text style={styles.goalItemText}>
-        {id}. {text}
-      </Text>
-    </View>
+    <Pressable onPress={onPress.bind(this, id)}>
+      <View style={styles.goalItem}>
+        <Text style={styles.goalItemText}>{text}</Text>
+      </View>
+    </Pressable>
   );
 }
 
