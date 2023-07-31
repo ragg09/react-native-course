@@ -6,10 +6,11 @@ import {
   Text,
   TextInput,
   View,
-  FlatList
+  FlatList,
+  Modal
 } from 'react-native';
 
-export default function GoalInput({ onPress }) {
+export default function GoalInput({ onPress, visible, modalHandler }) {
   const [inputGoal, setInputGoal] = useState('');
 
   const goalInptutHandler = (input) => {
@@ -20,27 +21,38 @@ export default function GoalInput({ onPress }) {
     if (inputGoal !== '') {
       onPress(inputGoal);
       setInputGoal('');
+      modalHandler();
     }
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.textInput}
-        placeholder="Your Course Goal"
-        onChangeText={goalInptutHandler}
-        value={inputGoal}
-      />
-      <Button title="Add Goal" onPress={addGoalHandler} />
-    </View>
+    <Modal visible={visible} animationType="slide">
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Your Course Goal"
+          onChangeText={goalInptutHandler}
+          value={inputGoal}
+        />
+        <View style={styles.buttonContainer}>
+          <View style={styles.buttonView}>
+            <Button title="Add Goal" onPress={addGoalHandler} />
+          </View>
+          <View style={styles.buttonView}>
+            <Button title="Cancel" onPress={modalHandler} />
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    padding: 30,
+    flexDirection: 'column',
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
     borderBottomWidth: 1,
@@ -49,8 +61,15 @@ const styles = StyleSheet.create({
   textInput: {
     borderWidth: 1,
     borderColor: '#cccccc',
-    width: '70%',
-    marginRight: 8,
+    width: '100%',
     padding: 8
+  },
+  buttonContainer: {
+    marginTop: 16,
+    flexDirection: 'row'
+  },
+  buttonView: {
+    width: 100,
+    marginHorizontal: 8
   }
 });

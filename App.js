@@ -4,7 +4,12 @@ import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
 
 export default function App() {
+  const [isOpen, setIsOpen] = useState(false);
   const [goalLists, setGoalLists] = useState([]);
+
+  const modalHandler = (iputGoal) => {
+    setIsOpen(!isOpen);
+  };
 
   const addGoalHandler = (inputGoal) => {
     setGoalLists((currentGoalLists) => [
@@ -21,7 +26,18 @@ export default function App() {
 
   return (
     <View style={styles.appContainer}>
-      <GoalInput onPress={addGoalHandler} />
+      <Button
+        title="Open Add New Goal"
+        color={'green'}
+        onPress={modalHandler}
+      />
+      {isOpen && (
+        <GoalInput
+          onPress={addGoalHandler}
+          visible={isOpen}
+          modalHandler={modalHandler}
+        />
+      )}
       <View style={styles.goalsContainer}>
         <FlatList
           data={goalLists}
