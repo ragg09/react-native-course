@@ -1,15 +1,23 @@
 import { Fragment, useState } from 'react';
-import { Button, StyleSheet, TextInput, View, FlatList } from 'react-native';
+import { Button, StyleSheet, View, FlatList } from 'react-native';
 import GoalItem from './components/GoalItem';
 import GoalInput from './components/GoalInput';
 import { StatusBar } from 'expo-status-bar';
+import GoalEdit from './components/GoalEdit';
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
+  const [isOpenEditModal, setIsOpenEditModal] = useState(false);
   const [goalLists, setGoalLists] = useState([]);
+  const [selectedGoal, setSelectedGoal] = useState();
 
-  const modalHandler = (iputGoal) => {
-    setIsOpen(!isOpen);
+  const addModalHandler = () => {
+    setIsOpenAddModal(!isOpenAddModal);
+  };
+
+  const editModalHandler = (id, text) => {
+    setSelectedGoal({ id, text });
+    setIsOpenEditModal(!isOpenEditModal);
   };
 
   const addGoalHandler = (inputGoal) => {
@@ -25,6 +33,18 @@ export default function App() {
     });
   };
 
+  const editGoalHandler = (id, updatedData) => {
+    setGoalLists((currentGoalLists) => {
+      return currentGoalLists.map((goal) => {
+        if (goal.id === id) {
+          return { ...goal, text: updatedData };
+        } else {
+          return goal;
+        }
+      });
+    });
+  };
+
   return (
     <Fragment>
       <StatusBar style="auto" />
@@ -32,13 +52,22 @@ export default function App() {
         <Button
           title="Open Add New Goal"
           color={'green'}
-          onPress={modalHandler}
+          onPress={addModalHandler}
         />
-        {isOpen && (
+        {isOpenEditModal && (
+          <GoalEdit
+            onPress={editGoalHandler}
+            visible={isOpenEditModal}
+            modalHandler={editModalHandler}
+            data={selectedGoal}
+          />
+        )}
+
+        {isOpenAddModal && (
           <GoalInput
             onPress={addGoalHandler}
-            visible={isOpen}
-            modalHandler={modalHandler}
+            visible={isOpenAddModal}
+            modalHandler={addModalHandler}
           />
         )}
         <View style={styles.goalsContainer}>
@@ -50,6 +79,7 @@ export default function App() {
                   id={itemData.item.id}
                   text={itemData.item.text}
                   onPress={deleteGoalHandler}
+                  onLongPress={editModalHandler}
                 />
               );
             }}

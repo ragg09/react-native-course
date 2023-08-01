@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 
-export default function GoalItem({ id, text, onPress }) {
+export default function GoalItem({ id, text, onPress, onLongPress }) {
   return (
     <View style={styles.goalItem}>
       <Pressable
         onPress={onPress.bind(this, id)}
+        onLongPress={onLongPress.bind(this, id, text)}
         android_ripple={{ color: 'white' }}
         style={({ pressed }) => pressed && styles.pressedItem}
       >

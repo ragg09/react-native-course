@@ -8,16 +8,16 @@ import {
   Image
 } from 'react-native';
 
-export default function GoalInput({ onPress, visible, modalHandler }) {
-  const [inputGoal, setInputGoal] = useState('');
+export default function GoalEdit({ onPress, visible, modalHandler, data }) {
+  const [inputGoal, setInputGoal] = useState(data.text);
 
   const goalInptutHandler = (input) => {
     setInputGoal(input);
   };
 
   const addGoalHandler = () => {
-    if (inputGoal !== '') {
-      onPress(inputGoal);
+    if (inputGoal !== '' && inputGoal !== data.text) {
+      onPress(data.id, inputGoal);
       setInputGoal('');
       modalHandler();
     }
@@ -35,7 +35,7 @@ export default function GoalInput({ onPress, visible, modalHandler }) {
         />
         <View style={styles.buttonContainer}>
           <View style={styles.buttonView}>
-            <Button title="Add Goal" onPress={addGoalHandler} />
+            <Button title="Update" onPress={addGoalHandler} />
           </View>
           <View style={styles.buttonView}>
             <Button title="Cancel" onPress={modalHandler} />
